@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.productapi.R;
 import com.example.productapi.databinding.ItemDescBinding;
 import com.example.productapi.models.ModelM;
 
@@ -15,49 +16,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DescAdapter extends RecyclerView.Adapter<DescAdapter.ViewHolder> {
-
     ItemDescBinding binding;
     Context context;
+
     List<ModelM> listD = new ArrayList<>();
-
-    public DescAdapter(Context context, List<ModelM> listD) {
-        this.context = context;
-        this.listD = listD;
-    }
-
     public void setListD(List<ModelM> listD) {
         this.listD = listD;
     }
 
+    public DescAdapter(Context context) {
+        this.context = context;
+    }
+
     @NonNull
     @Override
-    public DescAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemDescBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        binding = ItemDescBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DescAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.onBind(listD.get(position));
+
     }
+
+
+
+
 
     @Override
     public int getItemCount() {
         return listD.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+
+    public  class ViewHolder extends  RecyclerView.ViewHolder{
+
+        ItemDescBinding binding;
         public ViewHolder(@NonNull ItemDescBinding itemView) {
             super(itemView.getRoot());
-            binding = itemView;
+            binding = itemView; // Проинициализировать binding в конструкторе ViewHolder
         }
 
-        public void onBind(ModelM modelM) {
-            binding.nameCard.setText(modelM.getModelTitle());
-            binding.priceCard.setText(String.valueOf(modelM.getModelPrice()));
-            binding.descriptionCard.setText(modelM.getModelDescription());
-            // Для изображения возможно потребуется загрузка с помощью Glide или другой библиотеки
-            Glide.with(itemView.getContext()).load(modelM.getModelImage()).into(binding.imageCard);
+        public void onBind(ModelM furnitureModel) {
+            binding.nameCard.setText(furnitureModel.getModelTitle());
+            binding.priceCard.setText(String.valueOf(furnitureModel.getModelPrice()));
+            binding.descriptionCard.setText(furnitureModel.getModelDescription());
+            Glide.with(context)
+                    .load(listD.get(getAdapterPosition()).getModelImage())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(binding.imageCard);
         }
     }
 }

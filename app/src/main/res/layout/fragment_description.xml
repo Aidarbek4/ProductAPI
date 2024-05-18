@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.description.DescriptionFragment"
-    android:padding="7dp">
+    android:padding="7dp"
+    android:background="#DAF3DA">
 
     <ScrollView
         android:layout_width="match_parent"
